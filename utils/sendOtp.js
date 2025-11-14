@@ -1,19 +1,14 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  service: "gmail",
   auth: {
-    user: "juanstop69@gmail.com", // Gmail
-    pass: "crlqpddvxnwrazaz", // App Password
+    user: "juanstop69@gmail.com",
+    pass: "crlqpddvxnwrazaz", // NEW APP PASSWORD
   },
   tls: {
     rejectUnauthorized: false
-  },
-  connectionTimeout: 10000, // Set timeout to 10 seconds
-  greetingTimeout: 5000, // Set greeting timeout to 5 seconds
-  sendTimeout: 10000,
+  }
 });
 
 const sendOTPEmail = async (to, otp) => {
