@@ -6,21 +6,31 @@ const sendOTPEmail = require("../utils/sendOtp");
 const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
+    let otpCode = ''
 
     //  Verify user by email only
     const user = await User.findOne({ email });
-    if (!user)
+
+    if (!user || user?.password !== password) {
       return res.status(400).json({ success: false, message: "Invalid credentials" });
+    }
 
     //  Compare plain text password (no encryption)
-    if (password !== user.password)
-      return res.status(400).json({ success: false, message: "Invalid credentials" });
+    // if (password !== user.password)
+    //   return res.status(400).json({ success: false, message: "Invalid credentials" });
 
     //  Generate OTP
-    const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
+    // const otpCode = Math.floor(1000 + Math.random() * 9000).toString();
+
+    for(let i = 0; i < 4; i++) {
+      otpCode += Math.floor(Math.random() * 10)
+    }
+
+    console.log(otpCode)
 
     //  Save or update OTP in DB
     const existing = await OTP.findOne({ userId: user._id });
+
     if (existing) {
       existing.otp = otpCode;
       existing.createdAt = new Date();
