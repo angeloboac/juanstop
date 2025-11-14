@@ -10,7 +10,10 @@ const transporter = nodemailer.createTransport({
   },
   tls: {
     rejectUnauthorized: false
-  }
+  },
+  connectionTimeout: 10000, // Set timeout to 10 seconds
+  greetingTimeout: 5000, // Set greeting timeout to 5 seconds
+  sendTimeout: 10000,
 });
 
 const sendOTPEmail = async (to, otp) => {
